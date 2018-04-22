@@ -1,6 +1,6 @@
 ﻿namespace GcodeParse
 {
-    partial class Form1
+    partial class PreviewCodeDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -28,13 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.skControl1 = new SkiaSharp.Views.Desktop.SKControl();
+            this.SuspendLayout();
+            // 
+            // skControl1
+            // 
+            this.skControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.skControl1.Location = new System.Drawing.Point(0, 0);
+            this.skControl1.Name = "skControl1";
+            this.skControl1.Size = new System.Drawing.Size(800, 450);
+            this.skControl1.TabIndex = 0;
+            this.skControl1.Text = "skControl1";
+            // 
+            // PreviesCodeDialog
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            this.Controls.Add(this.skControl1);
+            this.Name = "PreviesCodeDialog";
+            this.Text = "PreviesCodeDialog";
+            this.Load += new System.EventHandler(this.PreviesCodeDialog_Load);
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private SkiaSharp.Views.Desktop.SKControl skControl1;
     }
 }
-

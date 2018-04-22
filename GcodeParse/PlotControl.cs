@@ -17,7 +17,7 @@ using SkiaSharp.Extended.Svg;
 using OpenTK;
 using Sgv = SkiaSharp.Extended.Svg.SKSvg;
 
-namespace GcodeParse
+namespace PlotControl
 {
     public partial class PlotControl : Form
     {

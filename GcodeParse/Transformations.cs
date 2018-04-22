@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SkiaSharp;
 
-namespace GcodeParse
+namespace PlotControl
 {
     public static class Transformations
     {

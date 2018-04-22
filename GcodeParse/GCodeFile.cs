@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using SkiaSharp;
 
-namespace GcodeParse
+namespace PlotControl
 {
     public class GCodeFile
     {

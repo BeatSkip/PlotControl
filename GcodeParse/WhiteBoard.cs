@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 
-namespace GcodeParse
+namespace PlotControl
 {
     public class WhiteBoard
     {

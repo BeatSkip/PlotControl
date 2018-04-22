@@ -11,7 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using SkiaSharp;
 
-namespace GcodeParse
+namespace PlotControl
 {
     public class GcodeDrawing
     {

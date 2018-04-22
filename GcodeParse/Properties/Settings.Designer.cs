@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GcodeParse.Properties
+namespace PlotControl.Properties
 {
 
 

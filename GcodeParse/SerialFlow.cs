@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using SerialPortLib2;
 using SerialPortLib2.Port;
 
-namespace GcodeParse
+namespace PlotControl
 {
     public class SerialFlow
     {

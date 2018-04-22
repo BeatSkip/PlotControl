@@ -15,7 +15,7 @@ using Handshake = SerialPortLib2.Port.Handshake;
 using Parity = SerialPortLib2.Port.Parity;
 using StopBits = SerialPortLib2.Port.StopBits;
 
-namespace GcodeParse
+namespace PlotControl
 {
     public partial class SerialControl : UserControl
     {

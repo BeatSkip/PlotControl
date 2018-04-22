@@ -1,4 +1,4 @@
-﻿namespace GcodeParse
+﻿namespace PlotControl
 {
     partial class SerialControl
     {

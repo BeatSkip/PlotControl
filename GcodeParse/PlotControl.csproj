@@ -226,11 +226,11 @@
     <Compile Include="BoardExporter.cs" />
     <Compile Include="PlotterSettings.cs" />
     <Compile Include="DrawSegment.cs" />
-    <Compile Include="PlotControl.cs">
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PlotControl.Designer.cs">
-      <DependentUpon>PlotControl.cs</DependentUpon>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GCodeCommand.cs" />
     <Compile Include="GcodeDrawing.cs" />
@@ -254,8 +254,8 @@
     <Compile Include="Transformations.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="WhiteBoard.cs" />
-    <EmbeddedResource Include="PlotControl.resx">
-      <DependentUpon>PlotControl.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PreviewCodeDialog.resx">
       <DependentUpon>PreviewCodeDialog.cs</DependentUpon>

@@ -19,7 +19,7 @@ using Sgv = SkiaSharp.Extended.Svg.SKSvg;
 
 namespace PlotControl
 {
-    public partial class PlotControl : Form
+    public partial class MainForm : Form
     {
         private WhiteBoard mainBoard;
         private List<GCodeFile> gFiles;
@@ -32,7 +32,7 @@ namespace PlotControl
         public ListBox lstDraw { get; set; }
         public ToolStripStatusLabel lblStatusBtmLeft { get; set; }
 
-        public PlotControl()
+        public MainForm()
         {
             InitializeComponent();
             mainBoard = new WhiteBoard(this,1000, 700, skControl1, RatioLabel, MouseLabel);

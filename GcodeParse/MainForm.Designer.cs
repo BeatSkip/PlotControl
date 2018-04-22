@@ -1,6 +1,6 @@
 ﻿namespace PlotControl
 {
-    partial class PlotControl
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -518,7 +518,7 @@
             this.panelSerial.Size = new System.Drawing.Size(296, 538);
             this.panelSerial.TabIndex = 0;
             // 
-            // PlotControl
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;

@@ -16,7 +16,7 @@ namespace PlotControl
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PlotControl());
+            Application.Run(new MainForm());
         }
     }
 }

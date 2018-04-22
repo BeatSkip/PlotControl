@@ -20,7 +20,7 @@ namespace PlotControl
     public partial class SerialControl : UserControl
     {
         private WhiteBoard mainBoard;
-        private PlotControl Parent;
+        private MainForm Parent;
         private SerialPortInput SerialConnection;
         private string SerialBuffer = string.Empty;
         private StreamReader lineReader;
@@ -37,7 +37,7 @@ namespace PlotControl
 
         public string GState { get; set; }
 
-        public SerialControl(PlotControl p,WhiteBoard b)
+        public SerialControl(MainForm p,WhiteBoard b)
         {
             InitializeComponent();
             mainBoard = b;

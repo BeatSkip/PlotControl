@@ -13,7 +13,7 @@ namespace PlotControl
 {
     public class WhiteBoard
     {
-        private PlotControl Parent;
+        private MainForm Parent;
         public SKControl mainControl;
         public SKSize BoardSize;
         public SKSize CanvasSize;
@@ -39,7 +39,7 @@ namespace PlotControl
         
 
 
-        public WhiteBoard(PlotControl parent,int w, int h, SKControl controller, ToolStripStatusLabel status, ToolStripStatusLabel mouse)
+        public WhiteBoard(MainForm parent,int w, int h, SKControl controller, ToolStripStatusLabel status, ToolStripStatusLabel mouse)
         {
             BoardSize = new SKSize((float) w, (float)h);
             StatusLabel = status;

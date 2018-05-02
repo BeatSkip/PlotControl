@@ -13,17 +13,19 @@ namespace PlotControl
         private float MoveSpeed;
         private float DrawSpeed;
         private int PenDownVal;
+        private int PenUpVal;
         private List<string> lines;
 
 
-        public BoardExporter(WhiteBoard w, string filename, float moveSpeed, float drawSpeed, int PDown)
+        public BoardExporter(WhiteBoard w, string filename, float moveSpeed, float drawSpeed, int PDown, int PUp)
         {
             board = w;
             exportFile = filename;
-            
+
             MoveSpeed = moveSpeed;
             DrawSpeed = drawSpeed;
             PenDownVal = PDown;
+            PenUpVal = PUp;
             Parse();
             //Save();
         }
@@ -36,7 +38,7 @@ namespace PlotControl
             lines.Add("G90");
             lines.Add("G21");
             lines.Add("G53");
-            lines.Add("M3 S0");           
+            lines.Add("M3 S" + PenUpVal);
             lines.Add("G1 F" + MoveSpeed);
 
 
@@ -44,36 +46,31 @@ namespace PlotControl
             {
                 if (Drawing.isDrawn)
                 {
-                    var list = Drawing.getGCodes(MoveSpeed, DrawSpeed, PenDownVal);
+                    var list = Drawing.getGCodes(MoveSpeed, DrawSpeed, PenDownVal, PenUpVal);
                     lines.AddRange(list);
-                    lines.Add("M3 S0");
+                    lines.Add("M3 S" + PenUpVal);
                     lines.Add("G1 F" + MoveSpeed);
                 }
-                
             }
+
             lines.Add("M3 S0");
-            lines.Add("$H");
+            //lines.Add("$H");
         }
 
         public List<string> getLines()
         {
             Parse();
             return lines;
-
         }
 
         public void Save()
         {
-            
             if (!exportFile.Contains('.'))
             {
                 exportFile += ".nc";
             }
+
             System.IO.File.WriteAllLines(exportFile, lines);
         }
-
-
-
-
     }
 }

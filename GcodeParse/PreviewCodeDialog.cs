@@ -42,8 +42,6 @@ namespace PlotControl
 
         private void PreviesCodeDialog_Load(object sender, EventArgs e)
         {
-
-          
             skControl1.PaintSurface += PaintSurface;
         }
 
@@ -55,12 +53,11 @@ namespace PlotControl
 
             foreach (var comm in drawing.DrawCommands)
             {
-                var r = (GcodeDrawCommand)comm.Value;
+                var r = (GcodeDrawCommand) comm.Value;
 
                 if (r.DrawType == typeof(GcodeArc))
                 {
-
-                    var q = (GcodeArc)comm.Value;
+                    var q = (GcodeArc) comm.Value;
                     var i = q.getArc(new SKPoint(0, 0), 1.0f, 0);
                     if (i.Start.X > maxX)
                     {
@@ -85,7 +82,7 @@ namespace PlotControl
 
                 if (r.DrawType == typeof(GcodeLine))
                 {
-                    var q = (GcodeLine)comm.Value;
+                    var q = (GcodeLine) comm.Value;
                     var i = q.getLine(new SKPoint(0, 0), 1.0f, 0);
 
                     if (i.Start.X > maxX)
@@ -110,31 +107,29 @@ namespace PlotControl
                 }
             }
 
-            w = (float)maxX * 1.05f;
+            w = (float) maxX * 1.05f;
             h = (float) maxY * 1.05f;
 
-            int iw = (int)Math.Round(w);
-            int ih = (int)Math.Round(h);
-            
-            this.ClientSize = new Size(iw,ih);
+            int iw = (int) Math.Round(w);
+            int ih = (int) Math.Round(h);
+
+            this.ClientSize = new Size(iw, ih);
             Console.WriteLine("maxX: " + maxX + "maxY: " + maxY);
         }
 
         private void PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
-            
             var canvas = e.Surface.Canvas;
             canvas.Clear(SKColors.White);
             Parallel.ForEach(drawing.DrawCommands, (command) =>
             {
-
                 //command.Value.Draw(w, h, zeroPoint, lines, moves, ScaleFactor, RotationDeg);
                 var r = (GcodeDrawCommand) command.Value;
 
                 if (r.DrawType == typeof(GcodeArc))
                 {
                     var q = (GcodeArc) command.Value;
-                    var i = q.getArc(new SKPoint(0, 0), 1.0f,0);
+                    var i = q.getArc(new SKPoint(0, 0), 1.0f, 0);
                     SKPaint p;
                     if (q.PenDown)
                     {
@@ -165,23 +160,17 @@ namespace PlotControl
 
                     canvas.DrawLine(flipY(i.Start), flipY(i.End), p);
                     //Console.WriteLine("Draw Line!");
-
                 }
                 else
                 {
                     Console.WriteLine("Not Line or arc!");
-
                 }
-
-                
             });
         }
 
         private SKPoint flipY(SKPoint inPoint)
         {
-            return new SKPoint(inPoint.X,h-inPoint.Y);
+            return new SKPoint(inPoint.X, h - inPoint.Y);
         }
-
     }
-
 }

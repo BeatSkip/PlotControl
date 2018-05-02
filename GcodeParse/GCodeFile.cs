@@ -42,13 +42,13 @@ namespace PlotControl
                 {
                     fileLines.Add(counter, v);
                     counter++;
-                }           
+                }
             }
 
             foreach (var Entry in fileLines)
             {
-                var command = new GCodeCommand(Entry.Value,Entry.Key);
-                CodeLines.Add(Entry.Key,command);
+                var command = new GCodeCommand(Entry.Value, Entry.Key);
+                CodeLines.Add(Entry.Key, command);
             }
 
             DrawSegment lastSegment = null;
@@ -66,9 +66,9 @@ namespace PlotControl
                         break;
                     case (1):
                     case (2):
-                        SegmentLine d = new SegmentLine(CodeLines[i], PDown, FeedRate,lastSegment);
+                        SegmentLine d = new SegmentLine(CodeLines[i], PDown, FeedRate, lastSegment);
                         lastSegment = d;
-                        OriginalSegments.Add(d.Index,d);
+                        OriginalSegments.Add(d.Index, d);
                         break;
                     case (3):
                     case (4):
@@ -82,22 +82,12 @@ namespace PlotControl
                     case (12):
                         PDown = true;
                         break;
-
-
                 }
-                
             }
         }
 
         private void Mutate()
         {
-            
         }
-
-
-
-
-
-        
     }
 }

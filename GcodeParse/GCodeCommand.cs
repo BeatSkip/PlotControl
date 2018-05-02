@@ -25,7 +25,7 @@ namespace PlotControl
         {
             if (Parameters.ContainsKey('X') && Parameters.ContainsKey('Y'))
             {
-                return new SKPoint((float)Parameters['X'], (float)Parameters['Y']);
+                return new SKPoint((float) Parameters['X'], (float) Parameters['Y']);
             }
             else
             {
@@ -37,9 +37,9 @@ namespace PlotControl
         {
             if (Parameters.ContainsKey('I') && Parameters.ContainsKey('J'))
             {
-                return new SKPoint((float)Parameters['I'], (float)Parameters['J']);
+                return new SKPoint((float) Parameters['I'], (float) Parameters['J']);
             }
-            else if(Parameters.ContainsKey('R'))
+            else if (Parameters.ContainsKey('R'))
             {
                 SKPoint a = new SKPoint();
                 SKPoint b = new SKPoint();
@@ -75,14 +75,14 @@ namespace PlotControl
         {
             if (Parameters.ContainsKey(c.ToString().ToUpper()[0]))
             {
-                return new KeyValuePair<char, object>(c,Parameters[c.ToString().ToUpper()[0]]);
+                return new KeyValuePair<char, object>(c, Parameters[c.ToString().ToUpper()[0]]);
             }
 
-            return new KeyValuePair<char,object>(c,new object());
+            return new KeyValuePair<char, object>(c, new object());
         }
 
 
-        public void setParameter(KeyValuePair<char,object> Parameter)
+        public void setParameter(KeyValuePair<char, object> Parameter)
         {
             if (Parameters.ContainsKey(Parameter.Key))
             {

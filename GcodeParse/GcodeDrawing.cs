@@ -68,7 +68,6 @@ namespace PlotControl
         {
             Parallel.ForEach(DrawCommands, (command) =>
             {
-
                 //command.Value.Draw(w, h, zeroPoint, lines, moves, ScaleFactor, RotationDeg);
                 var r = (GcodeDrawCommand) command.Value;
 
@@ -85,6 +84,7 @@ namespace PlotControl
                     {
                         p = moves;
                     }
+
                     //h.DrawPath(Transformations.CreateArc(i,w),p);
                     h.DrawLine(w.BoardToCanvas(i.Start), w.BoardToCanvas(i.End), p);
                     //TODO: Teken daadwerkelijk een arc!!
@@ -105,12 +105,10 @@ namespace PlotControl
 
                     h.DrawLine(w.BoardToCanvas(i.Start), w.BoardToCanvas(i.End), p);
                     //Console.WriteLine("Draw Line!");
-                    
                 }
                 else
                 {
                     Console.WriteLine("Not Line or arc!");
-
                 }
             });
         }
@@ -135,7 +133,7 @@ namespace PlotControl
             bool penDown = false;
 
             SKPoint last = new SKPoint(0, 0);
-           
+
             foreach (var v in CodeCommands)
             {
                 if (v.Value.Length != 0)
@@ -154,21 +152,21 @@ namespace PlotControl
                             break;
                         case (1):
                         case (2):
-                        case (4)://TODO REDO R-ARC classification
+                        case (4): //TODO REDO R-ARC classification
                             //Line
                             //Console.WriteLine("Line! :" + v.Value);
                             DrawCommands.Add(v.Key, new GcodeLine(codeCommand, penDown, last));
                             last = new SKPoint((float) codeCommand.getParameters()['X'],
                                 (float) codeCommand.getParameters()['Y']);
 
-                           
+
                             break;
                         case (3):
                             //ARC
                             //Console.WriteLine("Arc! :" + v.Value);
                             DrawCommands.Add(v.Key, new GcodeArc(codeCommand, penDown, last, classif));
-                            last = new SKPoint((float)codeCommand.getParameters()['X'],
-                                (float)codeCommand.getParameters()['Y']);
+                            last = new SKPoint((float) codeCommand.getParameters()['X'],
+                                (float) codeCommand.getParameters()['Y']);
                             break;
                         case (11):
                             penDown = false;
@@ -179,49 +177,44 @@ namespace PlotControl
                             penDown = true;
                             //Console.WriteLine("Pen Down! :" + v.Value);
                             break;
-
-
                     }
                 }
             }
-
         }
 
-        public List<string> getGCodes(float moveSpeed, float drawSpeed, int PDown)
+        public List<string> getGCodes(float moveSpeed, float drawSpeed, int PDown, int PUp)
         {
             List<string> commands = new List<string>();
             bool pendown = false;
 
             foreach (var command in DrawCommands)
             {
-                
                 if (pendown == false && command.Value.PenDown == true)
                 {
                     commands.Add("G1 F" + moveSpeed);
-                    commands.Add(command.Value.getStartGcode(zeroPoint, ScaleFactor, RotationDeg));//EDITED
+                    commands.Add(command.Value.getStartGcode(zeroPoint, ScaleFactor, RotationDeg)); //EDITED
                     commands.Add("G1 F" + drawSpeed);
                     commands.Add("M3 S" + PDown);
-                    commands.Add("G4 P0.4");
+                    commands.Add("G4 P0.1");
 
 
                     pendown = true;
                 }
+
                 if (pendown == true && command.Value.PenDown == false)
                 {
                     commands.Add("G1 F" + moveSpeed);
-                    commands.Add("M3 S0");
-                    commands.Add("G4 P0.4");
+                    commands.Add("M3 S" + PUp);
+                    commands.Add("G4 P0.1");
                     pendown = false;
                 }
 
 
                 commands.Add(command.Value.getGcode(zeroPoint, ScaleFactor, RotationDeg));
-
-               
             }
 
             commands.Add("G1 F" + moveSpeed);
-            commands.Add("M3 S0");
+            commands.Add("M3 S" + PUp);
 
             return commands;
         }
@@ -229,14 +222,9 @@ namespace PlotControl
         public float[] getBounds()
         {
             Console.WriteLine("minX: " + minX + "minY: " + minY + "maxX: " + maxX + "maxY: " + maxY);
-            return new float[] { minX, minY, maxX, maxY};
+            return new float[] {minX, minY, maxX, maxY};
         }
-
-
-
-        
     }
-
 
 
     public abstract class GcodeDrawCommand
@@ -254,7 +242,6 @@ namespace PlotControl
 
         public virtual void Draw(SKPaint move, float scale, float rot)
         {
-
         }
 
         public virtual string getGcode(SKPoint move, float scale, float rot)
@@ -266,12 +253,10 @@ namespace PlotControl
         {
             return "";
         }
-
     }
 
     public class GcodeLine : GcodeDrawCommand
     {
-
         public GcodeLine()
         {
         }
@@ -279,43 +264,42 @@ namespace PlotControl
 
         public GcodeLine(GCodeCommand command, bool drawn, SKPoint start)
         {
-            
             this.OriginalCommand = command;
             this.PenDown = drawn;
-           
-            Start = start;
-            End = new SKPoint((float)command.getParameters()['X'], (float)command.getParameters()['Y']);
-            DrawType = typeof(GcodeLine);
 
+            Start = start;
+            End = new SKPoint((float) command.getParameters()['X'], (float) command.getParameters()['Y']);
+            DrawType = typeof(GcodeLine);
         }
 
         public override void Draw(SKPaint move, float scale, float rot)
         {
-            
         }
 
         public LineSegment getLine(SKPoint move, float scale, float rot)
         {
-            return new LineSegment(Transformations.GetTransformed(Start,move,scale,rot), Transformations.GetTransformed(End, move, scale, rot));
+            return new LineSegment(Transformations.GetTransformed(Start, move, scale, rot),
+                Transformations.GetTransformed(End, move, scale, rot));
         }
 
         public LineSegment getLineOrig()
         {
-            return new LineSegment(Start,End);
+            return new LineSegment(Start, End);
         }
 
         public override string getGcode(SKPoint move, float scale, float rot)
         {
             var line = this.getLine(move, scale, rot);
             
-            return "G1 X" + line.End.X + " Y" + line.End.Y;
+            return "G1X" + line.End.X.ToString("0.000") + "Y" + line.End.Y.ToString("0.000");
         }
 
         public override string getStartGcode(SKPoint move, float scale, float rot)
         {
             var line = this.getLine(move, scale, rot);
 
-            return "G1 X" + line.Start.X + " Y" + line.Start.Y;
+            return "G1X" + line.Start.X.ToString("0.000") + "Y" + line.Start.Y.ToString("0.000");
+            
         }
     }
 
@@ -331,7 +315,6 @@ namespace PlotControl
 
         public GcodeArc(GCodeCommand command, bool drawn, SKPoint start, int classification)
         {
-
             this.OriginalCommand = command;
             this.PenDown = drawn;
 
@@ -397,25 +380,25 @@ namespace PlotControl
             {
                 ClockWise = false;
             }
-            
+
             DrawType = typeof(GcodeArc);
         }
-        
+
 
         public override void Draw(SKPaint moves, float scale, float rot)
         {
-            
-            
         }
 
         public ArcSegment getArc(SKPoint move, float scale, float rot)
         {
-            return new ArcSegment(Transformations.GetTransformed(Start, move, scale, rot), Transformations.GetTransformed(End, move, scale, rot), Transformations.GetTransformed(CenterAbs, move, scale, rot),ClockWise);
+            return new ArcSegment(Transformations.GetTransformed(Start, move, scale, rot),
+                Transformations.GetTransformed(End, move, scale, rot),
+                Transformations.GetTransformed(CenterAbs, move, scale, rot), ClockWise);
         }
 
         public ArcSegment getArcOrig()
         {
-                return new ArcSegment(Start,End,CenterAbs, ClockWise);
+            return new ArcSegment(Start, End, CenterAbs, ClockWise);
         }
 
         public override string getGcode(SKPoint move, float scale, float rot)
@@ -427,22 +410,22 @@ namespace PlotControl
             var i = c.Center.X - c.Start.X;
             var j = c.Center.Y - c.Start.Y;
 
-            
+
             string result = "";
 
             if (ClockWise)
             {
-                result += "G2 ";
+                result += "G2";
             }
             else
             {
-                result += "G3 ";
+                result += "G3";
             }
 
-            result += "X" + x + " Y" + y + " I" + i + " J" + j;
-            
+            result += "X" + x.ToString("0.000") + "Y" + y.ToString("0.000") + "I" + i.ToString("0.000") + "J" + j.ToString("0.000");
+
             return result;
-            
+
 
             //return "G1 X" + c.End.X + " Y" + c.End.Y;
         }
@@ -469,16 +452,17 @@ namespace PlotControl
 
             //result += "X" + x + " Y" + y + " I" + i + " J" + j;
             */
-            return "G1 X" + c.Start.X + " Y" + c.Start.Y;
+            //return "G1 X" + c.Start.X + " Y" + c.Start.Y;
+            return "G1X" + c.Start.X.ToString("0.000") + "Y" + c.Start.Y.ToString("0.000");
             //return result;
         }
-
     }
 
     public class LineSegment
     {
         public SKPoint Start { get; set; }
         public SKPoint End { get; set; }
+
         public LineSegment(SKPoint start, SKPoint end)
         {
             Start = start;

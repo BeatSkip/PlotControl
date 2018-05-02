@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 using System.Windows.Forms;
@@ -36,12 +37,13 @@ namespace PlotControl
         private int moveIndex = -1;
         private SKPoint mouse;
         private SKPoint dragStart;
-        
+        public SKPoint headLocation { get; set; }
 
 
-        public WhiteBoard(MainForm parent,int w, int h, SKControl controller, ToolStripStatusLabel status, ToolStripStatusLabel mouse)
+        public WhiteBoard(MainForm parent, int w, int h, SKControl controller, ToolStripStatusLabel status,
+            ToolStripStatusLabel mouse)
         {
-            BoardSize = new SKSize((float) w, (float)h);
+            BoardSize = new SKSize((float) w, (float) h);
             StatusLabel = status;
             MouseLabel = mouse;
             mainControl = controller;
@@ -82,20 +84,22 @@ namespace PlotControl
                 StrokeWidth = 1.5f
             };
             AllDrawings = new List<GcodeDrawing>();
+            headLocation = new SKPoint(0,0);
         }
 
-        
+       
+
+        delegate void StringArgReturningVoidDelegate(SKPoint head);
 
         private void PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
             var mainGraphic = e.Surface.Canvas;
-            
-            CanvasSize = new SKSize((float)e.Info.Width, (float)e.Info.Height);
+
+            CanvasSize = new SKSize((float) e.Info.Width, (float) e.Info.Height);
 
             float RatioCanvas = CanvasSize.Height / CanvasSize.Width;
             float RatioBoard = BoardSize.Height / BoardSize.Width;
 
-            
 
             bool wide = false;
 
@@ -106,21 +110,20 @@ namespace PlotControl
 
             StatusLabel.Text = "| Canvas: " + RatioCanvas + " | Board: " + RatioBoard + " | Wide = " + wide;
 
-            SKPoint CenterPoint = new SKPoint(CanvasSize.Width/2,CanvasSize.Height/2);
-
+            SKPoint CenterPoint = new SKPoint(CanvasSize.Width / 2, CanvasSize.Height / 2);
 
 
             float top;
             float left;
             float right;
             float bottom;
-            
+
 
             if (!wide)
             {
                 left = CenterPoint.X * 0.05f;
                 right = CenterPoint.X + (CenterPoint.X - left);
-                top = CenterPoint.Y-((((right - left) / BoardSize.Width) * BoardSize.Height)/2);                
+                top = CenterPoint.Y - ((((right - left) / BoardSize.Width) * BoardSize.Height) / 2);
                 bottom = CenterPoint.Y + (CenterPoint.Y - top);
             }
             else
@@ -130,21 +133,22 @@ namespace PlotControl
 
                 left = CenterPoint.X - ((((bottom - top) / BoardSize.Height) * BoardSize.Width) / 2);
                 right = CenterPoint.X + (CenterPoint.X - left);
-
             }
 
             Scale = (right - left) / BoardSize.Width;
-            StatusLabel.Text = "| Canvas: " + RatioCanvas + " | Board: " + RatioBoard + " | Wide = " + wide + " | Width: " + (right-left);
-            SKPoint TopLeft = new SKPoint(left,top);
-            SKPoint TopRight = new SKPoint(right, top); ;
+            StatusLabel.Text = "| Canvas: " + RatioCanvas + " | Board: " + RatioBoard + " | Wide = " + wide +
+                               " | Width: " + (right - left);
+            SKPoint TopLeft = new SKPoint(left, top);
+            SKPoint TopRight = new SKPoint(right, top);
+            ;
             SKPoint BottomLeft = new SKPoint(left, bottom);
             BottomRight = new SKPoint(right, bottom);
             mainGraphic.Clear(SystemColors.Control.ToSKColor());
 
-            SKRect board = new SKRect(left,top,right,bottom);
+            SKRect board = new SKRect(left, top, right, bottom);
             BoardBorder.Style = SKPaintStyle.Fill;
             BoardBorder.Color = SKColors.White;
-            mainGraphic.DrawRect(board,BoardBorder);
+            mainGraphic.DrawRect(board, BoardBorder);
             BoardBorder.Style = SKPaintStyle.Stroke;
             BoardBorder.Color = SKColors.Black;
             mainGraphic.DrawRect(board, BoardBorder);
@@ -168,7 +172,6 @@ namespace PlotControl
                 */
                 for (int i = 0; i < AllDrawings.Count; i++)
                 {
-                    
                     if (AllDrawings[i].isDrawn)
                     {
                         if (i != Parent.lstDraw.SelectedIndex && AllDrawings.Count > 1)
@@ -179,23 +182,22 @@ namespace PlotControl
                         {
                             AllDrawings[i].Draw(this, mainGraphic, gLinesSelected, gMoves);
                         }
-                        
                     }
                 }
-                   
-                
+
 
                 if (closesToMouse != -1)
                 {
                     //TODO:TESTTHIS
                     mainGraphic.DrawLine(BoardToCanvas(AllDrawings[closesToMouse].zeroPoint), mouse, gMoves);
                 }
-
             }
 
-            
-
-
+            var loc = BoardToCanvas(headLocation);
+            loc.X = loc.X - 1.5f;
+            BoardBorder.Style = SKPaintStyle.Fill;
+            BoardBorder.Color = SKColors.LightGreen;
+            mainGraphic.DrawCircle(loc, 3.0f,BoardBorder);
         }
 
         private void mouseDoubleClick(object sender, MouseEventArgs e)
@@ -211,7 +213,6 @@ namespace PlotControl
             {
                 closesToMouse = closestIndex(w);
                 mouse = w;
-               
             }
 
             var b = CanvasToBoard(w);
@@ -247,7 +248,7 @@ namespace PlotControl
 
         public SKPoint BoardToCanvas(float x, float y)
         {
-            return new SKPoint((BottomRight.X - (y*Scale)), (BottomRight.Y - (x * Scale)));
+            return new SKPoint((BottomRight.X - (y * Scale)), (BottomRight.Y - (x * Scale)));
         }
 
         public SKPoint BoardToCanvas(SKPoint point)
@@ -258,22 +259,19 @@ namespace PlotControl
 
         public SKPoint CanvasToBoard(float x, float y)
         {
-            
             return Transformations.InvertXY(new SKPoint((x - BottomRight.X) / -Scale, (y - BottomRight.Y) / -Scale));
         }
 
         public SKPoint CanvasToBoard(SKPoint point)
         {
-            return CanvasToBoard(point.X,point.Y);
+            return CanvasToBoard(point.X, point.Y);
         }
 
         public float GetScale()
         {
             return Scale;
-
         }
 
-        
 
         public void AddDrawing(GcodeDrawing drawing)
         {
@@ -292,10 +290,11 @@ namespace PlotControl
             Console.WriteLine("DrawDrawing started");
             if (drawingToDraw != -1)
             {
-                
                 AllDrawings[drawingToDraw].zeroPoint = CanvasToBoard(e.X, e.Y);
                 AllDrawings[drawingToDraw].isDrawn = true;
-                Console.WriteLine("DrawDrawing index: " + drawingToDraw + " | Location: " + AllDrawings[drawingToDraw].zeroPoint.X + ", " + AllDrawings[drawingToDraw].zeroPoint.Y);
+                Console.WriteLine("DrawDrawing index: " + drawingToDraw + " | Location: " +
+                                  AllDrawings[drawingToDraw].zeroPoint.X + ", " +
+                                  AllDrawings[drawingToDraw].zeroPoint.Y);
             }
 
             mainControl.MouseClick -= DrawDrawing;
@@ -308,6 +307,7 @@ namespace PlotControl
             {
                 return -1;
             }
+
             int closest = 0;
             float distance = float.MaxValue;
             int counter = 0;

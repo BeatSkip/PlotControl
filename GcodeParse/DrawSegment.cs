@@ -19,15 +19,16 @@ namespace PlotControl
 
         public DrawSegment()
         {
-
         }
     }
 
     public class SegmentLine : DrawSegment
     {
-        public SegmentLine() { }
+        public SegmentLine()
+        {
+        }
 
-        public SegmentLine(GCodeCommand command,bool pen,float feed, DrawSegment Previous = null)
+        public SegmentLine(GCodeCommand command, bool pen, float feed, DrawSegment Previous = null)
         {
             if (Previous == null)
             {
@@ -37,7 +38,7 @@ namespace PlotControl
             {
                 Start = Previous.End;
             }
-           
+
             End = command.getEndPoint();
             Command = command;
             Index = command.getIndex();
@@ -49,7 +50,7 @@ namespace PlotControl
     public class SegmentArc : DrawSegment
     {
         public SKPoint Center { get; set; }
-        
+
         public SegmentArc()
         {
         }
@@ -71,8 +72,6 @@ namespace PlotControl
             PenDown = pen;
             FeedRate = feed;
             Center = command.getCenterPoint(this.Start);
-
-
         }
 
         public SKPoint getAbsCenter()

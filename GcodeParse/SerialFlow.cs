@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SerialPortLib2;
 using SerialPortLib2.Port;
+using SkiaSharp;
 
 namespace PlotControl
 {
@@ -25,13 +26,17 @@ namespace PlotControl
         public bool IsInitiated { get; set; }
         public bool IsPaused { get; set; }
         public bool logging = true;
+        public SKPoint HeadLocation { get; set; }
+        private DateTime lastStatus;
+       
+        public string CurrentStatus { get; set; }
 
-        public SerialFlow(SerialControl parent,string port)
+        public SerialFlow(SerialControl parent, string port)
         {
             Parent = parent;
             sendBuffer = new List<string>();
             Console.WriteLine("STARTED SERIAL! Port: " + port);
-            SerialConnection = new SerialPortInput(port, 115200, Parity.None, 8, StopBits.One, Handshake.None,false);
+            SerialConnection = new SerialPortInput(port, 115200, Parity.None, 8, StopBits.One, Handshake.None, false);
             SerialConnection.ConnectionStatusChanged += Handler_SerialStatus;
             SerialConnection.MessageReceived += Handler_SerialMessage;
 
@@ -39,6 +44,8 @@ namespace PlotControl
             IsConnected = false;
             IsInitiated = false;
             IsPaused = false;
+            lastStatus = DateTime.UtcNow;
+            HeadLocation = new SKPoint(0, 0);
         }
 
         public void PauseToggle()
@@ -60,9 +67,10 @@ namespace PlotControl
             {
                 sendBuffer.Clear();
             }
+
             SendCounter = 0;
             AckCounter = 0;
-            
+
             sendBuffer.Add("M3S0");
             IsPaused = false;
             NextBuffer();
@@ -80,9 +88,9 @@ namespace PlotControl
                     if (v != "")
                     {
                         ParseLine(v.Trim());
-
                     }
                 }
+
                 SerialBuffer = String.Empty;
             }
         }
@@ -111,6 +119,7 @@ namespace PlotControl
             if (line == "ok" && !IsInitiated && AckCounter == 0)
             {
                 sendBuffer.Add("$G");
+                sendBuffer.Add("M3 S0");
                 SendCounter++;
 
                 IsInitiated = true;
@@ -124,49 +133,102 @@ namespace PlotControl
                 Console.WriteLine(" 2. Homing starting");
             }
 
-           
 
             if (line.Contains("[MSG:'$H'|'$X' to unlock]") && lastCommand.Contains("Grbl 1.1f ['$' for help]"))
             {
-                writeDirect("M3 S0");
+                
+                writeDirect("$21=1");
                 writeDirect("$$");
                 
+
+
                 Console.WriteLine(" 1. Inititation starting");
             }
-            
+
 
             if (line.Contains('$') && line.Contains('='))
             {
                 Parent.currentSettings.ParseSetting(line);
             }
 
+            if (line.StartsWith("<") && line.EndsWith(">"))
+            {
+                string l = line.Replace("<", "").Replace(">", "");
+                
+                ParseStatus(l);
+            }
+
             lastCommand = line;
+        }
+
+        private void ParseStatus(string statusline)
+        {
+            var split = statusline.Split('|');
+            int cnt = 0;
+            foreach (var v in split)
+            {
+                if (v.StartsWith("MPos:"))
+                {
+                    var loc = v.Replace("MPos:", "").Split(',');
+                    Parent.Parent.UpdateHead(new SKPoint(float.Parse(loc[0]), float.Parse(loc[1])));
+                  
+                }
+                else if (v.StartsWith("Bf:"))
+                {
+
+                }
+                else if (v.StartsWith("FS:"))
+                {
+
+                }
+                else
+                {
+                    CurrentStatus = v;
+                }
+            }
         }
 
         private void NextBuffer()
         {
-            
-            while (AckCounter > SendCounter - 2 && sendBuffer.Count > 0 && !IsPaused)
+            /*
+            if (DateTime.UtcNow > lastStatus.AddMilliseconds(1000))
+            {
+                lastStatus = DateTime.UtcNow;
+                writeDirect("?");
+            }*/
+
+            while (AckCounter > SendCounter - 3 && sendBuffer.Count > 0 && !IsPaused)
             {
                 if (logging)
                 {
-                    Console.WriteLine("SendCounter: " + SendCounter + " | AckCounter: " + AckCounter + " buffercnt: " + sendBuffer.Count);
+                    Console.WriteLine("SendCounter: " + SendCounter + " | AckCounter: " + AckCounter + " buffercnt: " +
+                                      sendBuffer.Count);
                 }
+
+                if (sendBuffer[0].Contains("X") && sendBuffer[0].Contains("Y"))
+                {
+                    Parent.Parent.UpdateHead(Util.getXY(sendBuffer[0]));
+                }
+
                 writeDirect(sendBuffer[0]);
 
-                if(logging)
+                if (logging)
                     Console.WriteLine(sendBuffer[0]);
 
                 SendCounter++;
                 sendBuffer.RemoveAt(0);
+
+               
             }
         }
 
         public void StartDrawing(List<string> drawing)
         {
+            sendBuffer.Add("$21=0");
             sendBuffer.AddRange(drawing);
+            sendBuffer.Add("G1 X10 Y10 F10000");
+            sendBuffer.Add("$21=1");
             NextBuffer();
-
         }
 
         public void Disconnect()
@@ -186,9 +248,8 @@ namespace PlotControl
                 if (logging)
                 {
                     Log(data);
-                    
                 }
-                
+
                 SerialConnection.SendMessage(Encoding.ASCII.GetBytes(data + '\r'));
             }
         }
@@ -201,11 +262,14 @@ namespace PlotControl
 
         private void Log(string text)
         {
+            /*
             using (StreamWriter sw = File.AppendText("LogFile.txt"))
             {
                 sw.WriteLine(text);
-
             }
+            */
         }
+
+        
     }
 }

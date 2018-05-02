@@ -97,7 +97,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1223, 538);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1223, 513);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -159,7 +159,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.skControl1);
             this.splitContainer1.Panel2.Controls.Add(this.panelSerial);
-            this.splitContainer1.Size = new System.Drawing.Size(1223, 538);
+            this.splitContainer1.Size = new System.Drawing.Size(1223, 513);
             this.splitContainer1.SplitterDistance = 285;
             this.splitContainer1.TabIndex = 0;
             this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
@@ -174,7 +174,7 @@
             this.TabMain.Location = new System.Drawing.Point(0, 0);
             this.TabMain.Name = "TabMain";
             this.TabMain.SelectedIndex = 0;
-            this.TabMain.Size = new System.Drawing.Size(285, 538);
+            this.TabMain.Size = new System.Drawing.Size(285, 513);
             this.TabMain.TabIndex = 0;
             // 
             // TabStart
@@ -185,7 +185,7 @@
             this.TabStart.Location = new System.Drawing.Point(4, 22);
             this.TabStart.Name = "TabStart";
             this.TabStart.Padding = new System.Windows.Forms.Padding(3);
-            this.TabStart.Size = new System.Drawing.Size(277, 512);
+            this.TabStart.Size = new System.Drawing.Size(277, 487);
             this.TabStart.TabIndex = 0;
             this.TabStart.Text = "Drawings";
             this.TabStart.UseVisualStyleBackColor = true;
@@ -196,7 +196,7 @@
             this.lstDrawings.FormattingEnabled = true;
             this.lstDrawings.Location = new System.Drawing.Point(3, 160);
             this.lstDrawings.Name = "lstDrawings";
-            this.lstDrawings.Size = new System.Drawing.Size(271, 320);
+            this.lstDrawings.Size = new System.Drawing.Size(271, 295);
             this.lstDrawings.TabIndex = 6;
             this.lstDrawings.SelectedIndexChanged += new System.EventHandler(this.lstDrawings_SelectedIndexChanged);
             // 
@@ -206,7 +206,7 @@
             this.panel4.Controls.Add(this.btnRemove);
             this.panel4.Controls.Add(this.btnLoadNew);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(3, 480);
+            this.panel4.Location = new System.Drawing.Point(3, 455);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(271, 29);
             this.panel4.TabIndex = 2;
@@ -404,7 +404,7 @@
             this.tabDrawing.Location = new System.Drawing.Point(4, 22);
             this.tabDrawing.Name = "tabDrawing";
             this.tabDrawing.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDrawing.Size = new System.Drawing.Size(277, 419);
+            this.tabDrawing.Size = new System.Drawing.Size(277, 487);
             this.tabDrawing.TabIndex = 1;
             this.tabDrawing.Text = "tabPage2";
             this.tabDrawing.UseVisualStyleBackColor = true;
@@ -434,7 +434,7 @@
             this.tabDebug.Controls.Add(this.btnExport);
             this.tabDebug.Location = new System.Drawing.Point(4, 22);
             this.tabDebug.Name = "tabDebug";
-            this.tabDebug.Size = new System.Drawing.Size(277, 419);
+            this.tabDebug.Size = new System.Drawing.Size(277, 487);
             this.tabDebug.TabIndex = 2;
             this.tabDebug.Text = "Debug";
             this.tabDebug.UseVisualStyleBackColor = true;
@@ -463,7 +463,7 @@
             this.tabMachSettings.Controls.Add(this.btnLoadSettings);
             this.tabMachSettings.Location = new System.Drawing.Point(4, 22);
             this.tabMachSettings.Name = "tabMachSettings";
-            this.tabMachSettings.Size = new System.Drawing.Size(277, 419);
+            this.tabMachSettings.Size = new System.Drawing.Size(277, 487);
             this.tabMachSettings.TabIndex = 3;
             this.tabMachSettings.Text = "Settings";
             this.tabMachSettings.UseVisualStyleBackColor = true;
@@ -472,15 +472,16 @@
             // 
             this.lstSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstSettings.Location = new System.Drawing.Point(0, 23);
+            this.lstSettings.MultiSelect = false;
             this.lstSettings.Name = "lstSettings";
-            this.lstSettings.Size = new System.Drawing.Size(277, 373);
+            this.lstSettings.Size = new System.Drawing.Size(277, 441);
             this.lstSettings.TabIndex = 2;
             this.lstSettings.UseCompatibleStateImageBehavior = false;
             // 
             // btnSaveSettings
             // 
             this.btnSaveSettings.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnSaveSettings.Location = new System.Drawing.Point(0, 396);
+            this.btnSaveSettings.Location = new System.Drawing.Point(0, 464);
             this.btnSaveSettings.Name = "btnSaveSettings";
             this.btnSaveSettings.Size = new System.Drawing.Size(277, 23);
             this.btnSaveSettings.TabIndex = 1;
@@ -504,7 +505,7 @@
             this.skControl1.Location = new System.Drawing.Point(0, 0);
             this.skControl1.MinimumSize = new System.Drawing.Size(110, 100);
             this.skControl1.Name = "skControl1";
-            this.skControl1.Size = new System.Drawing.Size(638, 538);
+            this.skControl1.Size = new System.Drawing.Size(638, 513);
             this.skControl1.TabIndex = 0;
             this.skControl1.Text = "skControl1";
             // 
@@ -515,7 +516,7 @@
             this.panelSerial.MaximumSize = new System.Drawing.Size(296, 0);
             this.panelSerial.MinimumSize = new System.Drawing.Size(296, 480);
             this.panelSerial.Name = "panelSerial";
-            this.panelSerial.Size = new System.Drawing.Size(296, 538);
+            this.panelSerial.Size = new System.Drawing.Size(296, 513);
             this.panelSerial.TabIndex = 0;
             // 
             // MainForm
@@ -524,8 +525,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1223, 560);
             this.Controls.Add(this.toolStripContainer1);
-            this.Name = "PlotControl";
+            this.Name = "MainForm";
             this.Text = "Plotter Control";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.BottomToolStripPanel.PerformLayout();

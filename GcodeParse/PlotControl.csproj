@@ -13,6 +13,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -25,7 +26,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -251,6 +251,7 @@
       <DependentUpon>SerialControl.cs</DependentUpon>
     </Compile>
     <Compile Include="SerialFlow.cs" />
+    <Compile Include="TextClass.cs" />
     <Compile Include="Transformations.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="WhiteBoard.cs" />
@@ -272,6 +273,77 @@
     <EmbeddedResource Include="SerialControl.resx">
       <DependentUpon>SerialControl.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="LetterGcodes\123.nc" />
+    <None Include="LetterGcodes\124.nc" />
+    <None Include="LetterGcodes\125.nc" />
+    <None Include="LetterGcodes\126.nc" />
+    <None Include="LetterGcodes\35.nc" />
+    <None Include="LetterGcodes\39.nc" />
+    <None Include="LetterGcodes\40.nc" />
+    <None Include="LetterGcodes\41.nc" />
+    <None Include="LetterGcodes\42.nc" />
+    <None Include="LetterGcodes\43.nc" />
+    <None Include="LetterGcodes\44.nc" />
+    <None Include="LetterGcodes\45.nc" />
+    <None Include="LetterGcodes\46.nc" />
+    <None Include="LetterGcodes\58.nc" />
+    <None Include="LetterGcodes\60.nc" />
+    <None Include="LetterGcodes\61.nc" />
+    <None Include="LetterGcodes\62.nc" />
+    <None Include="LetterGcodes\63.nc" />
+    <None Include="LetterGcodes\64.nc" />
+    <None Include="LetterGcodes\65.nc" />
+    <None Include="LetterGcodes\97.nc" />
+    <None Include="LetterGcodes\66.nc" />
+    <None Include="LetterGcodes\98.nc" />
+    <None Include="LetterGcodes\67.nc" />
+    <None Include="LetterGcodes\99.nc" />
+    <None Include="LetterGcodes\68.nc" />
+    <None Include="LetterGcodes\100.nc" />
+    <None Include="LetterGcodes\69.nc" />
+    <None Include="LetterGcodes\101.nc" />
+    <None Include="LetterGcodes\70.nc" />
+    <None Include="LetterGcodes\102.nc" />
+    <None Include="LetterGcodes\71.nc" />
+    <None Include="LetterGcodes\103.nc" />
+    <None Include="LetterGcodes\72.nc" />
+    <None Include="LetterGcodes\104.nc" />
+    <None Include="LetterGcodes\73.nc" />
+    <None Include="LetterGcodes\105.nc" />
+    <None Include="LetterGcodes\74.nc" />
+    <None Include="LetterGcodes\106.nc" />
+    <None Include="LetterGcodes\75.nc" />
+    <None Include="LetterGcodes\107.nc" />
+    <None Include="LetterGcodes\76.nc" />
+    <None Include="LetterGcodes\108.nc" />
+    <None Include="LetterGcodes\77.nc" />
+    <None Include="LetterGcodes\109.nc" />
+    <None Include="LetterGcodes\78.nc" />
+    <None Include="LetterGcodes\110.nc" />
+    <None Include="LetterGcodes\79.nc" />
+    <None Include="LetterGcodes\111.nc" />
+    <None Include="LetterGcodes\80.nc" />
+    <None Include="LetterGcodes\112.nc" />
+    <None Include="LetterGcodes\81.nc" />
+    <None Include="LetterGcodes\113.nc" />
+    <None Include="LetterGcodes\82.nc" />
+    <None Include="LetterGcodes\114.nc" />
+    <None Include="LetterGcodes\83.nc" />
+    <None Include="LetterGcodes\115.nc" />
+    <None Include="LetterGcodes\84.nc" />
+    <None Include="LetterGcodes\116.nc" />
+    <None Include="LetterGcodes\85.nc" />
+    <None Include="LetterGcodes\117.nc" />
+    <None Include="LetterGcodes\86.nc" />
+    <None Include="LetterGcodes\118.nc" />
+    <None Include="LetterGcodes\87.nc" />
+    <None Include="LetterGcodes\119.nc" />
+    <None Include="LetterGcodes\88.nc" />
+    <None Include="LetterGcodes\120.nc" />
+    <None Include="LetterGcodes\89.nc" />
+    <None Include="LetterGcodes\121.nc" />
+    <None Include="LetterGcodes\90.nc" />
+    <None Include="LetterGcodes\122.nc" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

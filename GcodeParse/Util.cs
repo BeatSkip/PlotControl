@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SkiaSharp;
 
 namespace PlotControl
 {
@@ -27,7 +28,7 @@ namespace PlotControl
                     case ('S'): //Integer parameters
                         result.Add(param, (int) int.Parse(Parameter.ToString().Substring(1)));
                         //Console.WriteLine("Matched: " + Parameter.ToString() + " | " + param + " " +
-                         //                 int.Parse(Parameter.ToString().Substring(1)));
+                        //                 int.Parse(Parameter.ToString().Substring(1)));
                         break;
                     case ('P'): //Float parameters
                     case ('X'):
@@ -44,6 +45,34 @@ namespace PlotControl
             }
 
             return result;
+        }
+
+        public static SKPoint getXY(string command)
+        {
+            Regex Gcode = new Regex("[xy][+-]?[0-9]*\\.?[0-9]*", RegexOptions.IgnoreCase);
+            MatchCollection m = Gcode.Matches(command);
+            float x = 0;
+            float y = 0;
+
+            foreach (var Parameter in m)
+            {
+                char param = Parameter.ToString().ToUpper()[0];
+
+                switch (param)
+                {
+                   
+                    case ('X'):
+                        x = (float)float.Parse(Parameter.ToString().Substring(1));
+                       
+                        break;
+                    case ('Y'):
+                        y = (float)float.Parse(Parameter.ToString().Substring(1));
+                        
+                        break;
+                }
+            }
+
+            return new SKPoint(x, y);
         }
 
         public static int ClassifyCommand(GCodeCommand input)
@@ -79,7 +108,7 @@ namespace PlotControl
                     case (1): //G1
                         return ClassifyLine(input);
                         break;
-                    case (2)://G2 and G3
+                    case (2): //G2 and G3
                     case (3):
                         return ClassifyArc(input);
                         break;
@@ -90,7 +119,7 @@ namespace PlotControl
             }
             else if (input.getParameters().ContainsKey('M'))
             {
-                switch ((int)input.getParameters()['M'])
+                switch ((int) input.getParameters()['M'])
                 {
                     case (3):
                         if ((int) input.getParameters()['S'] == 0) //Pen UP
@@ -101,25 +130,24 @@ namespace PlotControl
                         {
                             return 12;
                         }
+
                         break;
 
                     case (4): //G4
                         return 10;
                         break;
                 }
-
             }
             else
             {
                 return -1;
             }
+
             return -1;
         }
 
 
-
-
-        public static  int ClassifyArc(GCodeCommand input)
+        public static int ClassifyArc(GCodeCommand input)
         {
             if (input.getParameters().ContainsKey('R'))
             {
@@ -141,10 +169,9 @@ namespace PlotControl
             {
                 return 2;
             }
-
         }
 
-        public static DialogResult ShowInputDialog(string title ,ref string input)
+        public static DialogResult ShowInputDialog(string title, ref string input)
         {
             System.Drawing.Size size = new System.Drawing.Size(200, 70);
             Form inputBox = new Form();
@@ -183,6 +210,4 @@ namespace PlotControl
             return result;
         }
     }
-
-
 }

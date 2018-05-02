@@ -8,10 +8,8 @@ namespace PlotControl
 {
     public class GCodeInterpreter
     {
-
-        public GCodeInterpreter(Dictionary<int,string> File)
+        public GCodeInterpreter(Dictionary<int, string> File)
         {
-
         }
     }
 }

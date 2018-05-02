@@ -35,7 +35,7 @@ namespace PlotControl
         public MainForm()
         {
             InitializeComponent();
-            mainBoard = new WhiteBoard(this,1000, 700, skControl1, RatioLabel, MouseLabel);
+            mainBoard = new WhiteBoard(this, 1150, 790, skControl1, RatioLabel, MouseLabel);
             //ParseTest();
             gFiles = new List<GCodeFile>();
 
@@ -52,17 +52,41 @@ namespace PlotControl
             serialConControl.Dock = DockStyle.Fill;
             lstDraw = lstDrawings;
             lblStatusBtmLeft = lblStatusMain;
+            lstSettings.MultiSelect = false;
+            lstSettings.MouseDoubleClick += ChangeSettings;
+            
+
+
+        }
+
+        private void ChangeSettings(object sender, MouseEventArgs e)
+        {
+            var indices = lstSettings.SelectedIndices;
+            var selItem = lstSettings.SelectedItems;
+
+            var setting = serialConControl.getSetting(selItem[0].SubItems[0].Text);
+
+            string sSetting = setting.Value.Value.ToString();
+
+            var h = Util.ShowInputDialog(setting.Value.Title, ref sSetting);
+
+            if (h == DialogResult.OK)
+            {
+                string d = "$" + setting.Key + "=" + sSetting;
+                serialConControl.ParseSetting(d);
+                refreshSettings();
+            }
+            
+
+
         }
 
         private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
-
             MachineSettings = new PlotterSettings();
             MachineSettings.LoadDefault();
 
@@ -71,7 +95,6 @@ namespace PlotControl
             lstSettings.Columns.Add("Value");
             tabMachSettings.Enter += TabMachSettingsOnEnter;
             refreshSettings();
-
         }
 
         private void TabMachSettingsOnEnter(object sender, EventArgs eventArgs)
@@ -91,7 +114,7 @@ namespace PlotControl
 
             foreach (var set in w.Settings)
             {
-                string value ="";
+                string value = "";
                 if (set.Value.ValueType == typeof(int))
                 {
                     value = ((int) set.Value.Value).ToString();
@@ -99,7 +122,7 @@ namespace PlotControl
 
                 if (set.Value.ValueType == typeof(bool))
                 {
-                    value = ((bool)set.Value.Value).ToString();
+                    value = ((bool) set.Value.Value).ToString();
                 }
 
                 if (set.Value.ValueType == typeof(float))
@@ -107,9 +130,9 @@ namespace PlotControl
                     float v = (float) set.Value.Value;
                     value = v.ToString("0.##");
                 }
-                lstSettings.Items.Add(new ListViewItem(new string[] { set.Value.Title, value }));
+
+                lstSettings.Items.Add(new ListViewItem(new string[] {set.Value.Title, value}));
             }
-            
         }
 
         private void UpdateCodeList()
@@ -118,22 +141,40 @@ namespace PlotControl
             {
                 lstDrawings.Items.Clear();
             }
+
             foreach (var drawing in mainBoard.AllDrawings)
             {
                 lstDrawings.Items.Add(drawing.Name);
             }
+
             lblStatusMain.Text = "Idle..";
         }
 
+        public void UpdateHead(SKPoint head)
+        {
 
 
+
+            if (this.mainBoard.mainControl.InvokeRequired)
+            {
+                StringArgReturningVoidDelegate d = new StringArgReturningVoidDelegate(UpdateHead);
+                this.Invoke(d, new object[] { head });
+            }
+            else
+            {
+                mainBoard.headLocation = head;
+                mainBoard.mainControl.Refresh();
+            }
+        }
+
+        delegate void StringArgReturningVoidDelegate(SKPoint head);
 
         private async void btnLoadNew_Click(object sender, EventArgs e)
         {
             OpenFileDialog theDialog = new OpenFileDialog();
             theDialog.Title = "Open Gcode File";
             theDialog.InitialDirectory = defaultFolder;
-            
+
             if (theDialog.ShowDialog() == DialogResult.OK)
             {
                 string filename = theDialog.FileName;
@@ -145,9 +186,6 @@ namespace PlotControl
                 //mainBoard.AllDrawings.Add(res);
                 lblStatusMain.Text = "Loading gcode..";
                 await DoWork(filename, theDialog.SafeFileName);
-
-
-
             }
 
             //UpdateCodeList();
@@ -175,9 +213,7 @@ namespace PlotControl
             if (lstDrawings.SelectedIndex >= 0)
             {
                 mainBoard.DrawDrawing(lstDrawings.SelectedIndex);
-
             }
-
         }
 
 
@@ -191,10 +227,8 @@ namespace PlotControl
                                    " degrees";
                 //TabMain.TabPages.Insert(1,drawingTab);
                 //drawingTab.Text = mainBoard.AllDrawings[lstDrawings.SelectedIndex].Name;
-                
-                
-            }else
-            if (lstDrawings.SelectedIndex == -1)
+            }
+            else if (lstDrawings.SelectedIndex == -1)
             {
                 //drawingTab = TabMain.TabPages[1];
                 //TabMain.TabPages.RemoveAt(1);
@@ -212,7 +246,7 @@ namespace PlotControl
                 switch (s)
                 {
                     case ("Up"):
-                        drawing.move(0,float.Parse(txtMoveStep.Text));
+                        drawing.move(0, float.Parse(txtMoveStep.Text));
                         break;
                     case ("<"):
                         drawing.move(float.Parse(txtMoveStep.Text), 0);
@@ -221,12 +255,12 @@ namespace PlotControl
                         drawing.move(-1 * float.Parse(txtMoveStep.Text), 0);
                         break;
                     case ("Down"):
-                        drawing.move(0,-1* float.Parse(txtMoveStep.Text));
+                        drawing.move(0, -1 * float.Parse(txtMoveStep.Text));
                         break;
                     case ("Rotate Right"):
                         drawing.RotateStep(-1 * float.Parse(txtDegStep.Text));
                         break;
-                    case ("Rotate Left"):                   
+                    case ("Rotate Left"):
                         drawing.RotateStep(float.Parse(txtDegStep.Text));
                         break;
                     case ("Scale +"):
@@ -236,8 +270,8 @@ namespace PlotControl
                         drawing.ScaleStep(-0.1f);
                         break;
                 }
+
                 skControl1.Refresh();
-                
             }
         }
 
@@ -247,7 +281,6 @@ namespace PlotControl
             {
                 if (mainBoard.AllDrawings.Count > lstDrawings.SelectedIndex)
                 {
-                    
                     mainBoard.AllDrawings.RemoveAt(lstDrawings.SelectedIndex);
                     lstDrawings.Items.RemoveAt(lstDrawings.SelectedIndex);
                     skControl1.Refresh();
@@ -257,22 +290,29 @@ namespace PlotControl
 
         private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
         {
-
         }
 
         private void btnExport_Click(object sender, EventArgs e)
         {
             if (txtFile.Text != "")
             {
-                var exportFile = new BoardExporter(mainBoard, txtFile.Text, 4000.0f, 2500.0f, 119);
-
-                
+                var exportFile = new BoardExporter(mainBoard, txtFile.Text, 4000.0f, 2500.0f, 107, 100);
             }
         }
 
         private void btnDrawOnPlotter_Click(object sender, EventArgs e)
         {
+        }
 
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (serialConControl.SerialConnected)
+            {
+                serialConControl.Disconnect();
+                Console.WriteLine("Disconnecting!");
+            }
+
+            
         }
     }
 }

@@ -8,11 +8,11 @@ namespace PlotControl
 {
     public class PlotterSettings
     {
-        public Dictionary<int,Setting> Settings { get; set; }
+        public Dictionary<int, Setting> Settings { get; set; }
 
         public PlotterSettings()
         {
-            Settings = new Dictionary<int, Setting>();           
+            Settings = new Dictionary<int, Setting>();
         }
 
         public void LoadDefault()
@@ -294,7 +294,6 @@ namespace PlotControl
 
         public bool ParseSetting(string line)
         {
-
             var st = line.Trim().Replace("$", "");
             var values = st.Split('=');
             int index = int.Parse(values[0]);
@@ -305,7 +304,7 @@ namespace PlotControl
             {
                 Settings[index].Value = float.Parse(values[1]);
             }
-            else if(type == typeof(int))
+            else if (type == typeof(int))
             {
                 Settings[index].Value = int.Parse(values[1]);
             }
@@ -323,8 +322,30 @@ namespace PlotControl
             }
 
 
-
             return false;
+        }
+
+        public Setting getSetting(int index)
+        {
+            return Settings[index];
+        }
+
+        public KeyValuePair<int,Setting> getSetting(string title)
+        {
+            foreach (var sett in Settings)
+            {
+                if (sett.Value.Title == title)
+                {
+                    return sett;
+                }
+            }
+
+            return new KeyValuePair<int, Setting>();
+        }
+
+        public void updateSetting(int index, Setting setting)
+        {
+            
         }
     }
 
@@ -335,6 +356,5 @@ namespace PlotControl
         public string Description { get; set; }
         public object Value { get; set; }
         public Type ValueType { get; set; }
-
     }
 }

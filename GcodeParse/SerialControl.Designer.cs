@@ -28,43 +28,52 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.grpC = new System.Windows.Forms.GroupBox();
+            this.lblStatus = new System.Windows.Forms.Label();
             this.btnPause = new System.Windows.Forms.Button();
             this.btnStopDrawing = new System.Windows.Forms.Button();
-            this.lblStatus = new System.Windows.Forms.Label();
             this.lstSerial = new System.Windows.Forms.ListBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.grpB = new System.Windows.Forms.GroupBox();
             this.btnDrawOnPlotter = new System.Windows.Forms.Button();
             this.btnParseBoardForPlotter = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.grpA = new System.Windows.Forms.GroupBox();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cmbComPorts = new System.Windows.Forms.ComboBox();
             this.btnConnectSerial = new System.Windows.Forms.Button();
-            this.groupBox4.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.grpC.SuspendLayout();
+            this.grpB.SuspendLayout();
+            this.grpA.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox4
+            // grpC
             // 
-            this.groupBox4.AutoSize = true;
-            this.groupBox4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.groupBox4.Controls.Add(this.lblStatus);
-            this.groupBox4.Controls.Add(this.btnPause);
-            this.groupBox4.Controls.Add(this.btnStopDrawing);
-            this.groupBox4.Controls.Add(this.lstSerial);
-            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox4.Location = new System.Drawing.Point(5, 183);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(286, 292);
-            this.groupBox4.TabIndex = 8;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Serial";
+            this.grpC.AutoSize = true;
+            this.grpC.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.grpC.Controls.Add(this.lblStatus);
+            this.grpC.Controls.Add(this.btnPause);
+            this.grpC.Controls.Add(this.btnStopDrawing);
+            this.grpC.Controls.Add(this.lstSerial);
+            this.grpC.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpC.Location = new System.Drawing.Point(5, 183);
+            this.grpC.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
+            this.grpC.Name = "grpC";
+            this.grpC.Size = new System.Drawing.Size(286, 292);
+            this.grpC.TabIndex = 8;
+            this.grpC.TabStop = false;
+            this.grpC.Text = "Serial";
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.Location = new System.Drawing.Point(6, 24);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(47, 13);
+            this.lblStatus.TabIndex = 3;
+            this.lblStatus.Text = "lblStatus";
             // 
             // btnPause
             // 
@@ -86,15 +95,6 @@
             this.btnStopDrawing.UseVisualStyleBackColor = true;
             this.btnStopDrawing.Click += new System.EventHandler(this.btnStopDrawing_Click);
             // 
-            // lblStatus
-            // 
-            this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(6, 24);
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(47, 13);
-            this.lblStatus.TabIndex = 3;
-            this.lblStatus.Text = "lblStatus";
-            // 
             // lstSerial
             // 
             this.lstSerial.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -104,17 +104,17 @@
             this.lstSerial.Size = new System.Drawing.Size(280, 238);
             this.lstSerial.TabIndex = 2;
             // 
-            // groupBox3
+            // grpB
             // 
-            this.groupBox3.Controls.Add(this.btnDrawOnPlotter);
-            this.groupBox3.Controls.Add(this.btnParseBoardForPlotter);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox3.Location = new System.Drawing.Point(5, 123);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(286, 60);
-            this.groupBox3.TabIndex = 9;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Draw";
+            this.grpB.Controls.Add(this.btnDrawOnPlotter);
+            this.grpB.Controls.Add(this.btnParseBoardForPlotter);
+            this.grpB.Dock = System.Windows.Forms.DockStyle.Top;
+            this.grpB.Location = new System.Drawing.Point(5, 123);
+            this.grpB.Name = "grpB";
+            this.grpB.Size = new System.Drawing.Size(286, 60);
+            this.grpB.TabIndex = 9;
+            this.grpB.TabStop = false;
+            this.grpB.Text = "Draw";
             // 
             // btnDrawOnPlotter
             // 
@@ -136,19 +136,19 @@
             this.btnParseBoardForPlotter.UseVisualStyleBackColor = true;
             this.btnParseBoardForPlotter.Click += new System.EventHandler(this.btnParseBoardForPlotter_Click);
             // 
-            // groupBox2
+            // grpA
             // 
-            this.groupBox2.AutoSize = true;
-            this.groupBox2.Controls.Add(this.button4);
-            this.groupBox2.Controls.Add(this.button3);
-            this.groupBox2.Controls.Add(this.button2);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox2.Location = new System.Drawing.Point(5, 62);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(286, 61);
-            this.groupBox2.TabIndex = 7;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Commands";
+            this.grpA.AutoSize = true;
+            this.grpA.Controls.Add(this.button4);
+            this.grpA.Controls.Add(this.button3);
+            this.grpA.Controls.Add(this.button2);
+            this.grpA.Dock = System.Windows.Forms.DockStyle.Top;
+            this.grpA.Location = new System.Drawing.Point(5, 62);
+            this.grpA.Name = "grpA";
+            this.grpA.Size = new System.Drawing.Size(286, 61);
+            this.grpA.TabIndex = 7;
+            this.grpA.TabStop = false;
+            this.grpA.Text = "Commands";
             // 
             // button4
             // 
@@ -166,7 +166,7 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(55, 23);
             this.button3.TabIndex = 1;
-            this.button3.Text = "Reset";
+            this.button3.Text = "ENABLE LIMITS";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -216,9 +216,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.grpC);
+            this.Controls.Add(this.grpB);
+            this.Controls.Add(this.grpA);
             this.Controls.Add(this.groupBox1);
             this.MaximumSize = new System.Drawing.Size(296, 0);
             this.MinimumSize = new System.Drawing.Size(296, 480);
@@ -226,10 +226,10 @@
             this.Padding = new System.Windows.Forms.Padding(5);
             this.Size = new System.Drawing.Size(296, 480);
             this.Load += new System.EventHandler(this.SerialControl_Load);
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
+            this.grpC.ResumeLayout(false);
+            this.grpC.PerformLayout();
+            this.grpB.ResumeLayout(false);
+            this.grpA.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -238,13 +238,13 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox grpC;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.ListBox lstSerial;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox grpB;
         private System.Windows.Forms.Button btnDrawOnPlotter;
         private System.Windows.Forms.Button btnParseBoardForPlotter;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox grpA;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
